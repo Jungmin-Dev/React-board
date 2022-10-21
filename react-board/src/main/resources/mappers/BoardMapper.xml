@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.reactboard.mappers.BoardMapper">
+
+    <insert id="insertBoard">
+        INSERT INTO board (TITLE, CONTENT)
+        VALUES (#{title}, #{content})
+    </insert>
+
+    <select id="findBoard" resultType="board">
+        SELECT * FROM board
+        ORDER BY id DESC
+        <if test='offset != null and page_size != null'>
+            LIMIT #{offset}, #{page_size}
+        </if>
+    </select>
+
+
+    <select id="findOneBoard" resultType="board">
+        SELECT *
+        FROM board
+        WHERE id = #{id}
+    </select>
+
+    <select id="countBoard" resultType="Integer">
+        SELECT count(*)
+        FROM board
+    </select>
+
+    <update id="updateBoard">
+        UPDATE board
+        <trim prefix="set" suffixOverrides=",">
+            <if test="title != null">title = #{title},</if>
+            <if test="content != null">content = #{content},</if>
+        </trim>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteBoard">
+        DELETE FROM board
+        WHERE id = #{id}
+    </delete>
+</mapper>

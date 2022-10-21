@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.reactboard.mappers.CommentMapper">
+    <insert id="insertComment" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO comment(content, board_id)
+        VALUES (
+        #{content},
+        #{board_id}
+        );
+    </insert>
+
+    <select id="findComment" resultType="Comment">
+        SELECT *
+        from comment
+        order by id desc
+    </select>
+
+    <select id="findOneComment" resultType="Comment">
+        SELECT *
+        from comment
+        where id = #{id}
+    </select>
+
+    <update id="updateComment">
+        UPDATE comment
+        set content = #{content}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteComment">
+        DELETE
+        FROM comment
+        WHERE id = #{id}
+    </delete>
+
+</mapper>

@@ -1,14 +1,15 @@
-import React, {useEffect, useState} from 'react';
-import {useParams, useNavigate} from "react-router-dom";
+import React, {useCallback, useEffect, useState} from 'react';
+import {useNavigate, useParams} from "react-router-dom";
 import {Board} from "../../domain/Board";
 import {request} from "../../api";
 import {Button, Card, Modal, Row} from "react-bootstrap";
+import CommentList from "../board-comment/CommentList";
 
 const BoardView = () => {
 
     const params = useParams();
+    const id = Number(params.id);
     const Navigate = useNavigate();
-
     // Modal
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -19,25 +20,25 @@ const BoardView = () => {
         content: '',
     });
 
-    const getBoard = async (id?: string)=>{
+    const getBoard = useCallback(async () => {
         const res = await request('get', `/api/board/${id}`);
         setBoard(res);
-    }
+    }, [params])
 
-    const handleDelete = async ()=>{
-        await request('delete', `/api/board?id=${params.id}`);
+    const handleDelete = async () => {
+        await request('delete', `/api/board?id=${id}`);
         setShow(false);
         Navigate('/');
     }
 
-    useEffect(()=>{
-    getBoard(params.id)
-    }, [])
+    useEffect(() => {
+        getBoard();
+    },[])
 
     return (
         <>
             <Row className="justify-content-end">
-                <Button variant="info"onClick={() => {
+                <Button variant="info" onClick={() => {
                     Navigate(`/board-edit/${params.id}`)
                 }}>수정</Button>
                 <Button variant="danger" onClick={() => handleShow()}>삭제</Button>
@@ -48,7 +49,9 @@ const BoardView = () => {
                     {board?.content}
                 </Card.Text>
             </Card>
+
             <Row className="justify-content-center">
+                <CommentList board_id={id}></CommentList>
                 <Button variant="primary" onClick={() => Navigate(-1)}>돌아가기</Button>
             </Row>
 

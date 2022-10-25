@@ -16,17 +16,15 @@ public class CommentController {
     private final CommentMapper commentMapper;
 
     @PostMapping
-    public Result insertComment(@RequestBody Comment comment){
-        int result = commentMapper.insertComment(comment);
-        if(result>0)
-            return new Result(0, "success");
-        else
-            return new Result(100, "fail");
+    public Comment insertComment(@RequestBody Comment comment){
+        commentMapper.insertComment(comment);
+        return comment;
     }
 
     @GetMapping
     public Comment findOneComment(Integer id){
-        return commentMapper.findOneComment(id);
+        Comment oneComment = commentMapper.findOneComment(id);
+        return oneComment;
     }
 
     @GetMapping("/all")

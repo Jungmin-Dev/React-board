@@ -15,6 +15,7 @@
     <select id="findComment" resultType="Comment">
         SELECT *
         from comment
+        where board_id = #{board_id}
         order by id desc
     </select>
 

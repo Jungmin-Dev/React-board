@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Form} from 'react-bootstrap'
+import {Button, Form, Row} from 'react-bootstrap'
 import {Board} from "../../domain/Board";
 import {request} from "../../api";
 import {useNavigate} from "react-router-dom";
@@ -27,6 +27,9 @@ const BoardRegister: React.FC = () => {
 
     return (
         <Form onSubmit={handleSubmit}>
+            <Row className="justify-content-center">
+                <Button variant="primary" onClick={() => navigate(-1)}>돌아가기</Button>
+            </Row>
             <Form.Group controlId="titleInput">
                 <Form.Label>제목</Form.Label>
                 <Form.Control required type="text" placeholder="" />
@@ -38,6 +41,7 @@ const BoardRegister: React.FC = () => {
             <Button variant="primary" type="submit">
                 저장
             </Button>
+
         </Form>
     );
 };
